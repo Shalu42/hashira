@@ -14,7 +14,6 @@ public class SecretSharing {
         }
     }
 
-    // Lagrange interpolation at x = 0 (constant term)
     static BigInteger lagrangeAtZero(List<Share> shares, int k) {
         BigInteger secret = BigInteger.ZERO;
         for (int i = 0; i < k; i++) {
@@ -31,7 +30,6 @@ public class SecretSharing {
     }
 
     public static void main(String[] args) throws Exception {
-        // Read JSON file
         String jsonStr = new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get("input2.json")));
         JSONObject obj = new JSONObject(jsonStr);
 
@@ -45,15 +43,14 @@ public class SecretSharing {
             JSONObject point = obj.getJSONObject(key);
             int base = Integer.parseInt(point.getString("base"));
             String valueStr = point.getString("value");
-            BigInteger y = new BigInteger(valueStr, base); // convert to decimal
+            BigInteger y = new BigInteger(valueStr, base); 
             shares.add(new Share(x, y));
         }
 
-        // Take first k shares to reconstruct
+
         BigInteger secret = lagrangeAtZero(shares, k);
         System.out.println("Secret (c) = " + secret);
 
-        // Validation step
         System.out.println("Checking validity of all shares...");
         for (Share s : shares) {
             BigInteger expected = BigInteger.ZERO;
@@ -73,3 +70,4 @@ public class SecretSharing {
         }
     }
 }
+
